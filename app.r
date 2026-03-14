@@ -51,3 +51,55 @@ ui <- dashboardPage(
     )
   )
 )
+
+server <- function(input, output, session) {
+  
+  # Reactive calc — filters data by team and season
+  filtered_data <- reactive({
+    team   <- input$team
+    season <- input$season
+    
+    # Home matches from team's perspective
+    home_rows <- epl |>
+      filter(HomeTeam == team, Season == season) |>
+      transmute(
+        Date   = MatchDate,
+        Venue  = "Home",
+        GF     = FullTimeHomeGoals,
+        GA     = FullTimeAwayGoals,
+        Result = case_when(
+          FullTimeResult == "H" ~ "Win",
+          FullTimeResult == "A" ~ "Loss",
+          TRUE                  ~ "Draw"
+        )
+      )
+    
+    # Away matches from team's perspective
+    away_rows <- epl |>
+      filter(AwayTeam == team, Season == season) |>
+      transmute(
+        Date   = MatchDate,
+        Venue  = "Away",
+        GF     = FullTimeAwayGoals,
+        GA     = FullTimeHomeGoals,
+        Result = case_when(
+          FullTimeResult == "A" ~ "Win",
+          FullTimeResult == "H" ~ "Loss",
+          TRUE                  ~ "Draw"
+        )
+      )
+    
+    bind_rows(home_rows, away_rows) |>
+      arrange(Date) |>
+      mutate(
+        SeasonThird = case_when(
+          row_number() <= n() / 3       ~ "Early",
+          row_number() <= 2 * n() / 3   ~ "Mid",
+          TRUE                          ~ "Late"
+        )
+      )
+  })
+  
+}
+
+
