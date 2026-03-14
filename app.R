@@ -113,7 +113,12 @@ server <- function(input, output, session) {
     
     ggplot(df, aes(x = Venue, y = Avg, fill = Metric)) +
       geom_col(position = "dodge", width = 0.5) +
-      labs(x = NULL, y = "Average Goals", fill = NULL) +
+      geom_text(aes(label = round(Avg, 2)),
+                position = position_dodge(width = 0.5),
+                vjust = -0.4, size = 3.5, fontface = "bold") +
+      scale_fill_manual(values = c("Scored" = "#3c8dbc", "Conceded" = "#e74c3c")) +
+      labs(x = NULL, y = "Average Goals", fill = NULL,
+           subtitle = "Average goals scored and conceded per match") +
       theme_minimal()
   })
   
@@ -125,8 +130,13 @@ server <- function(input, output, session) {
     
     ggplot(df, aes(x = Venue, y = WinRate, fill = Venue)) +
       geom_col(width = 0.4, show.legend = FALSE) +
-      scale_y_continuous(limits = c(0, 100)) +
-      labs(x = NULL, y = "Win Rate (%)") +
+      geom_text(aes(label = paste0(round(WinRate, 1), "%")),
+                vjust = -0.4, size = 4, fontface = "bold") +
+      scale_fill_manual(values = c("Home" = "#27ae60", "Away" = "#e67e22")) +
+      scale_y_continuous(limits = c(0, 100),
+                         labels = function(x) paste0(x, "%")) +
+      labs(x = NULL, y = "Win Rate (%)",
+           subtitle = "Percentage of matches won at home vs away") +
       theme_minimal()
   })
   
@@ -140,7 +150,10 @@ server <- function(input, output, session) {
     ggplot(df, aes(x = SeasonThird, y = AvgGoals, group = 1)) +
       geom_line(colour = "#3c8dbc", linewidth = 1.2) +
       geom_point(size = 4, colour = "#3c8dbc") +
-      labs(x = "Season Period", y = "Avg Goals Scored") +
+      geom_text(aes(label = round(AvgGoals, 2)),
+                vjust = -1.2, size = 3.5, fontface = "bold") +
+      labs(x = "Season Period", y = "Avg Goals Scored",
+           subtitle = "Average goals scored in early, mid, and late thirds of the season") +
       theme_minimal()
   })
   
