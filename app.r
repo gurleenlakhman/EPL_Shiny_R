@@ -11,3 +11,43 @@ epl$MatchDate <- as.Date(epl$MatchDate)
 # Dropdown choices
 all_seasons <- sort(unique(epl$Season))
 all_teams   <- sort(unique(c(epl$HomeTeam, epl$AwayTeam)))
+
+ui <- dashboardPage(
+  dashboardHeader(title = "EPL Match Tracker"),
+  
+  dashboardSidebar(
+    selectInput(
+      inputId  = "team",
+      label    = "Select Team",
+      choices  = all_teams,
+      selected = "Arsenal"
+    ),
+    selectInput(
+      inputId  = "season",
+      label    = "Select Season",
+      choices  = all_seasons,
+      selected = "2023/24"
+    )
+  ),
+  
+  dashboardBody(
+    fluidRow(
+      valueBoxOutput("total_matches", width = 4),
+      valueBoxOutput("home_win_rate", width = 4),
+      valueBoxOutput("away_win_rate", width = 4)
+    ),
+    fluidRow(
+      box(title = "Home vs Away Performance", width = 6,
+          solidHeader = TRUE, status = "primary",
+          plotOutput("home_away_plot")),
+      box(title = "Win Rate: Home vs Away", width = 6,
+          solidHeader = TRUE, status = "primary",
+          plotOutput("win_rate_plot"))
+    ),
+    fluidRow(
+      box(title = "Season Progression", width = 12,
+          solidHeader = TRUE, status = "info",
+          plotOutput("progression_plot"))
+    )
+  )
+)
