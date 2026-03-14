@@ -4,7 +4,7 @@ An interactive R Shiny dashboard for exploring English Premier League (EPL) matc
 
 ## Live App
 
-🔗 [Click here to open the dashboard](#) ← will be updated after deployment
+[Click here to open the dashboard](https://connect.posit.cloud/gurleenlakhman/content/019cea58-beb2-0ea8-f07c-e0b712142512)
 
 ------------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ Select any **team** and **season** from the sidebar to explore:
 
 ## Installation
 
-Make sure you have R (≥ 4.1) installed. Then install the required packages in R:
+Make sure you have R (\>= 4.1) installed. Then install the required packages in R:
 
 ``` r
 install.packages(c("shiny", "shinydashboard", "dplyr", "ggplot2", "lubridate", "tidyr"))
@@ -56,4 +56,4 @@ The app will open at `http://127.0.0.1:<port>` in your browser.
 
 ## About
 
-Created by **Gurleen Kaur** as part of DSCI 532 (Data Visualization II) at UBC's Master of Data Science programme, March 2026.
+Created by **Gurleen Kaur** as part of DSCI 532 (Data Visualization II) at UBC's Master of Data Science program, March 2026.
